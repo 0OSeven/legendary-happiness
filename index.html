@@ -1,385 +1,717 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HR Cert Prep — SHRM-CP · PHR · SPHR</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Steady — video stabilizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..600&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0f1117; --card:#181b25; --card2:#1f2330; --line:#2a2f40;
-  --txt:#e8eaf2; --mut:#9aa1b5; --acc:#6c8cff; --acc2:#8b6cff;
-  --ok:#3ecf8e; --bad:#ff6b6b; --warn:#ffb454; --mark:#4a3f14;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;min-height:100vh}
-.wrap{max-width:860px;margin:0 auto;padding:20px 16px 60px}
-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px}
-h1{font-size:20px;font-weight:700}
-h1 span{background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
-.certs{display:flex;gap:6px}
-.certbtn{padding:7px 14px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--mut);cursor:pointer;font-size:13px;font-weight:600}
-.certbtn.on{background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
-.card h3{font-size:15px;margin-bottom:4px}
-.card p{font-size:12.5px;color:var(--mut);line-height:1.45}
-.mode{cursor:pointer;transition:transform .12s,border-color .12s}
-.mode:hover{transform:translateY(-2px);border-color:var(--acc)}
-.mode .ic{font-size:22px;margin-bottom:8px}
-.statrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
-.stat b{font-size:20px;display:block}
-.stat span{font-size:11px;color:var(--mut)}
-.dom{margin:6px 0}
-.dom .lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:3px}
-.bar{height:7px;background:var(--card2);border-radius:4px;overflow:hidden}
-.bar i{display:block;height:100%;border-radius:4px;background:linear-gradient(90deg,var(--acc),var(--acc2))}
-.qotd{border:1px solid var(--acc);cursor:pointer}
-button.primary{background:linear-gradient(90deg,var(--acc),var(--acc2));color:#fff;border:none;padding:11px 22px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
-button.ghost{background:var(--card2);color:var(--txt);border:1px solid var(--line);padding:10px 18px;border-radius:10px;font-size:13px;cursor:pointer}
-button:disabled{opacity:.45;cursor:not-allowed}
-/* quiz */
-.qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:13px;color:var(--mut);flex-wrap:wrap;gap:8px}
-.timer{font-variant-numeric:tabular-nums;font-weight:700;color:var(--warn)}
-.prog{height:5px;background:var(--card2);border-radius:3px;margin-bottom:16px;overflow:hidden}
-.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--acc),var(--acc2))}
-.qmeta{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
-.chip{font-size:11px;padding:3px 9px;border-radius:10px;background:var(--card2);color:var(--mut);border:1px solid var(--line)}
-.qtext{font-size:16px;line-height:1.55;margin-bottom:16px;user-select:text}
-.qtext mark{background:var(--mark);color:#ffe08a;border-radius:3px;padding:0 2px}
-.tools{display:flex;gap:8px;margin-bottom:12px}
-.tool{font-size:12px;padding:5px 12px;border-radius:8px;border:1px solid var(--line);background:var(--card2);color:var(--mut);cursor:pointer}
-.tool.on{border-color:var(--warn);color:var(--warn)}
-.opt{display:flex;align-items:flex-start;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 14px;margin-bottom:9px;cursor:pointer;font-size:14.5px;line-height:1.45;position:relative}
-.opt:hover{border-color:var(--acc)}
-.opt.sel{border-color:var(--acc);background:var(--card2)}
-.opt.correct{border-color:var(--ok);background:rgba(62,207,142,.08)}
-.opt.wrong{border-color:var(--bad);background:rgba(255,107,107,.07)}
-.opt.struck .otext{text-decoration:line-through;opacity:.4}
-.opt .letter{font-weight:700;color:var(--mut);min-width:18px}
-.opt .strike{margin-left:auto;font-size:12px;color:var(--mut);opacity:.5;padding:0 4px;flex-shrink:0}
-.opt .strike:hover{opacity:1;color:var(--bad)}
-.expl{background:var(--card2);border-left:3px solid var(--acc);border-radius:0 10px 10px 0;padding:14px;font-size:13.5px;line-height:1.6;color:var(--txt);margin:12px 0}
-.expl b{color:var(--acc)}
-.qnav{display:flex;justify-content:space-between;align-items:center;margin-top:16px;gap:10px}
-.bookmark{cursor:pointer;font-size:20px;color:var(--mut)}
-.bookmark.on{color:var(--warn)}
-/* results */
-.score-big{font-size:44px;font-weight:800;text-align:center;margin:10px 0}
-.score-sub{text-align:center;color:var(--mut);font-size:14px;margin-bottom:18px}
-.rv{border-bottom:1px solid var(--line);padding:12px 0;font-size:13.5px}
-.rv .q{margin-bottom:6px;line-height:1.5}
-.rv .a{color:var(--mut);font-size:12.5px;line-height:1.5}
-.ok{color:var(--ok)} .bad{color:var(--bad)}
-/* custom builder */
-.field{margin-bottom:14px}
-.field label{display:block;font-size:12px;color:var(--mut);margin-bottom:6px}
-.checks{display:flex;flex-wrap:wrap;gap:6px}
-.ck{font-size:12px;padding:6px 11px;border-radius:9px;border:1px solid var(--line);background:var(--card2);color:var(--mut);cursor:pointer}
-.ck.on{border-color:var(--acc);color:var(--txt)}
-select,input[type=number]{background:var(--card2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:8px 10px;font-size:13px}
-.levels{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 14px}
-.lvl{width:44px;height:44px;border-radius:11px;border:1px solid var(--line);background:var(--card);display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;position:relative}
-.lvl.done{border-color:var(--ok);color:var(--ok)}
-.lvl.locked{opacity:.35;cursor:not-allowed}
-.back{color:var(--mut);cursor:pointer;font-size:13px;margin-bottom:14px;display:inline-block}
-.back:hover{color:var(--txt)}
-.empty{color:var(--mut);font-size:13px;padding:20px;text-align:center}
-.note{font-size:11.5px;color:var(--mut);margin-top:16px;line-height:1.5}
+  :root{
+    --paper:#E6E9ED;
+    --panel:#FFFFFF;
+    --ink:#131820;
+    --ink-soft:#5A6472;
+    --line:#C6CCD4;
+    --action:#3A31D8;
+    --action-ink:#FFFFFF;
+    --steady:#1E7A5F;
+    --warn:#A33B21;
+    --shaky:#96A0AC;
+    --r:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+    font-size:17px;
+    line-height:1.45;
+    -webkit-text-size-adjust:100%;
+    padding:0 18px calc(48px + env(safe-area-inset-bottom));
+  }
+  .wrap{max-width:560px;margin:0 auto}
+  header{padding:38px 0 26px}
+  h1{
+    font-size:clamp(38px,13vw,58px);
+    line-height:.92;
+    letter-spacing:-.045em;
+    font-weight:600;
+    margin:0;
+  }
+  header p{
+    margin:12px 0 0;
+    color:var(--ink-soft);
+    max-width:34ch;
+    font-size:16px;
+  }
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--r);
+    padding:18px;
+    margin-bottom:14px;
+  }
+  .pick{
+    display:block;
+    width:100%;
+    border:1.5px dashed var(--line);
+    background:var(--panel);
+    border-radius:var(--r);
+    padding:30px 20px;
+    text-align:center;
+    cursor:pointer;
+    color:var(--ink);
+    font:inherit;
+    font-size:18px;
+    font-weight:600;
+  }
+  .pick:hover{border-color:var(--action);color:var(--action)}
+  .pick span{display:block;font-weight:400;font-size:15px;color:var(--ink-soft);margin-top:6px}
+  input[type=file]{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+  .filename{
+    display:flex;gap:10px;align-items:baseline;justify-content:space-between;
+    font-size:15px;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--line);
+  }
+  .filename b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .filename em{font-style:normal;color:var(--ink-soft);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .ctl{margin:0 0 18px}
+  .ctl:last-child{margin-bottom:0}
+  .ctl-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .ctl label{font-weight:600;font-size:16px}
+  .ctl output{color:var(--action);font-variant-numeric:tabular-nums;font-size:15px}
+  .ctl .hint{display:block;color:var(--ink-soft);font-size:14px;margin-top:2px;line-height:1.35}
+  input[type=range]{width:100%;margin:10px 0 0;accent-color:var(--action);height:28px}
+  select{
+    font:inherit;font-size:16px;padding:9px 12px;border-radius:9px;
+    border:1px solid var(--line);background:var(--panel);color:var(--ink);width:100%;margin-top:8px;
+  }
+  .check{display:flex;gap:11px;align-items:flex-start;cursor:pointer}
+  .check input{width:22px;height:22px;margin:1px 0 0;accent-color:var(--action);flex:0 0 auto}
+  .go{
+    width:100%;border:0;border-radius:var(--r);background:var(--action);color:var(--action-ink);
+    font:inherit;font-size:19px;font-weight:600;padding:17px;cursor:pointer;
+  }
+  .go:disabled{background:var(--shaky);cursor:default}
+  .go.secondary{background:transparent;color:var(--action);border:1.5px solid var(--action);font-size:17px;padding:13px}
+  .status{font-size:15px;color:var(--ink-soft);margin:0 0 10px;font-variant-numeric:tabular-nums}
+  .status.err{color:var(--warn)}
+  .bar{height:5px;background:var(--paper);border-radius:3px;overflow:hidden;margin-bottom:16px}
+  .bar i{display:block;height:100%;width:0;background:var(--action);transition:width .18s linear}
+  canvas.trace{width:100%;height:96px;display:block;border-radius:8px;background:#F4F6F8}
+  .legend{display:flex;gap:16px;font-size:13.5px;color:var(--ink-soft);margin-top:9px}
+  .legend i{display:inline-block;width:16px;height:2px;vertical-align:middle;margin-right:6px}
+  video.out{width:100%;border-radius:10px;display:block;background:#000}
+  .row{display:flex;gap:10px;margin-top:14px}
+  .row>*{flex:1}
+  .stats{font-size:14.5px;color:var(--ink-soft);margin:12px 0 0;font-variant-numeric:tabular-nums}
+  details{margin-top:22px;font-size:15px;color:var(--ink-soft)}
+  summary{cursor:pointer;font-weight:600;color:var(--ink);padding:6px 0}
+  details p{margin:8px 0}
+  details code{background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:1px 5px;font-size:13.5px}
+  .hidden{display:none !important}
+  a{color:var(--action)}
+  :focus-visible{outline:2.5px solid var(--action);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){*{transition:none !important}}
 </style>
 </head>
 <body>
-<div class="wrap" id="app"></div>
-<script src="questions.js"></script>
+<div class="wrap">
+
+<header>
+  <h1>Steady</h1>
+  <p>Smooths handheld shake out of a video, on your phone. Nothing is uploaded anywhere.</p>
+</header>
+
+<div id="step-pick">
+  <label class="pick" for="file">
+    Choose a video
+    <span>From your camera roll or files</span>
+  </label>
+  <input type="file" id="file" accept="video/*">
+</div>
+
+<div id="step-setup" class="panel hidden">
+  <div class="filename"><b id="fname">—</b><em id="fmeta"></em></div>
+
+  <div class="ctl">
+    <div class="ctl-head"><label for="smooth">Smoothing</label><output id="smoothOut">0.8 s</output></div>
+    <input type="range" id="smooth" min="0.2" max="2.5" step="0.1" value="0.8">
+    <span class="hint">How far ahead and behind each frame looks when averaging out the shake. More is steadier but slower to follow a real pan.</span>
+  </div>
+
+  <div class="ctl">
+    <div class="ctl-head"><label for="crop">Crop allowance</label><output id="cropOut">12%</output></div>
+    <input type="range" id="crop" min="2" max="30" step="1" value="12">
+    <span class="hint">Correcting shake means shifting the picture, so the edges have to be zoomed past. More room here means more shake can be removed.</span>
+  </div>
+
+  <div class="ctl">
+    <label for="quality">Output size</label>
+    <select id="quality">
+      <option value="720">720p — smallest, most reliable</option>
+      <option value="1080" selected>1080p — recommended</option>
+      <option value="0">Match the original</option>
+    </select>
+  </div>
+
+  <div class="ctl">
+    <label class="check"><input type="checkbox" id="rot" checked><span>Correct tilt as well as shift<span class="hint">Levels out the roll from walking. Turn off if the result looks like it is swaying.</span></span></label>
+  </div>
+
+  <div class="ctl">
+    <label class="check"><input type="checkbox" id="audio" checked><span>Keep the sound<span class="hint">The video plays out loud while it exports, so the audio can be recorded along with it.</span></span></label>
+  </div>
+
+  <button class="go" id="run">Stabilize</button>
+</div>
+
+<div id="step-work" class="panel hidden">
+  <p class="status" id="status">Reading the video…</p>
+  <div class="bar"><i id="barfill"></i></div>
+  <canvas class="trace" id="trace" width="1040" height="192"></canvas>
+  <div class="legend">
+    <span><i style="background:var(--shaky)"></i>Camera as filmed</span>
+    <span><i style="background:var(--action)"></i>Smoothed path</span>
+  </div>
+  <div class="row"><button class="go secondary" id="cancel">Cancel</button></div>
+</div>
+
+<div id="step-done" class="panel hidden">
+  <video class="out" id="result" controls playsinline></video>
+  <p class="stats" id="stats"></p>
+  <div class="row">
+    <button class="go secondary" id="compare">Show original</button>
+    <a class="go" id="save" download="stabilized.mp4" style="text-align:center;text-decoration:none;display:block">Save video</a>
+  </div>
+  <div class="row"><button class="go secondary" id="again">Start over</button></div>
+</div>
+
+<details>
+  <summary>If something goes wrong</summary>
+  <p><b>Nothing happens when I pick a video.</b> Safari on iPhone and Chrome on Android can both read iPhone recordings. Desktop Chrome and Firefox often cannot decode HEIC/HEVC <code>.mov</code> files, so use a phone or convert first.</p>
+  <p><b>The export has no sound.</b> Not every browser lets a page capture audio from a playing video. The picture still stabilizes; the clip just comes out silent.</p>
+  <p><b>Saving on iPhone.</b> Tap Save video, then use the share sheet to put it in Photos. Long-pressing the player also works.</p>
+  <p><b>It looks worse, not better.</b> Very dark footage, heavy motion blur, or a subject filling the whole frame all confuse the motion tracking. Try more crop allowance, or turn off tilt correction.</p>
+  <p><b>Export takes as long as the clip.</b> That is expected — the encoder records in real time. Analysis runs faster than real time; the export does not.</p>
+</details>
+
+<details>
+  <summary>How it works</summary>
+  <p>Every frame is shrunk to a thumbnail and compared with the one before it to work out which way the camera moved. Adding those up gives the camera's actual path, jitter included. That path gets averaged over the smoothing window to produce the path a gimbal would have taken, and each frame is shifted and turned by the difference, then zoomed slightly so no empty edges show.</p>
+  <p>It corrects shift and roll. It does not correct perspective wobble or rolling-shutter jello, which need the phone's gyroscope — something a web page cannot read.</p>
+</details>
+
+</div>
+
+<video id="src" playsinline muted preload="auto" class="hidden"></video>
+
 <script>
-const $=s=>document.querySelector(s);
-const APP=$('#app');
-const DOM=window.QMETA.domains, BP=window.QMETA.blueprints, BANK=window.QBANK;
-const LETTERS=['A','B','C','D'];
+(function(){
+"use strict";
 
-// ---------- state / storage ----------
-const store={
-  get(k,d){try{const v=localStorage.getItem('hrprep_'+k);return v?JSON.parse(v):d}catch(e){return d}},
-  set(k,v){localStorage.setItem('hrprep_'+k,JSON.stringify(v))}
-};
-let cert=store.get('cert','SHRM-CP');
-let stats=store.get('stats',{});           // {qid:{c:correct,w:wrong,last:0|1}}
-let bookmarks=store.get('bookmarks',[]);
-let levelProg=store.get('levelProg',{});   // {cert:maxUnlocked}
-let streak=store.get('streak',{last:null,n:0});
+var $ = function(id){ return document.getElementById(id); };
+var fileInput=$("file"), src=$("src");
+var stepPick=$("step-pick"), stepSetup=$("step-setup"), stepWork=$("step-work"), stepDone=$("step-done");
+var statusEl=$("status"), barfill=$("barfill"), trace=$("trace"), tctx=trace.getContext("2d");
+var result=$("result"), saveLink=$("save"), statsEl=$("stats");
 
-function touchStreak(){
-  const today=new Date().toDateString();
-  if(streak.last===today)return;
-  const yd=new Date(Date.now()-864e5).toDateString();
-  streak={last:today,n:streak.last===yd?streak.n+1:1};
-  store.set('streak',streak);
+var ANALYSIS_W = 192;      // width of the thumbnail used for motion tracking
+var state = { file:null, url:null, cancelled:false, busy:false, outURL:null, showingOriginal:false };
+
+/* ---------- setup screen ---------- */
+
+fileInput.addEventListener("change", function(){
+  var f = fileInput.files && fileInput.files[0];
+  if(!f) return;
+  loadFile(f);
+});
+
+function loadFile(f){
+  if(state.url) URL.revokeObjectURL(state.url);
+  state.file = f;
+  state.url = URL.createObjectURL(f);
+  src.src = state.url;
+  src.muted = true;
+  $("fname").textContent = f.name;
+  $("fmeta").textContent = "…";
+  src.onloadedmetadata = function(){
+    var d = src.duration;
+    $("fmeta").textContent = src.videoWidth + "×" + src.videoHeight + " · " + (isFinite(d) ? d.toFixed(1)+"s" : "");
+    stepPick.classList.add("hidden");
+    stepSetup.classList.remove("hidden");
+    stepDone.classList.add("hidden");
+  };
+  src.onerror = function(){
+    stepPick.classList.remove("hidden");
+    alert("This browser cannot decode that video. On a computer, try an .mp4 instead of an iPhone .mov.");
+  };
 }
-function rec(qid,ok){
-  const s=stats[qid]||{c:0,w:0};
-  ok?s.c++:s.w++; s.last=ok?1:0; stats[qid]=s; store.set('stats',stats);
+
+$("smooth").addEventListener("input", function(){ $("smoothOut").textContent = (+this.value).toFixed(1)+" s"; });
+$("crop").addEventListener("input", function(){ $("cropOut").textContent = this.value+"%"; });
+
+$("again").addEventListener("click", function(){
+  stepDone.classList.add("hidden");
+  stepSetup.classList.add("hidden");
+  stepPick.classList.remove("hidden");
+  fileInput.value = "";
+});
+
+$("cancel").addEventListener("click", function(){ state.cancelled = true; });
+
+$("compare").addEventListener("click", function(){
+  state.showingOriginal = !state.showingOriginal;
+  result.src = state.showingOriginal ? state.url : state.outURL;
+  result.play().catch(function(){});
+  this.textContent = state.showingOriginal ? "Show stabilized" : "Show original";
+});
+
+$("run").addEventListener("click", function(){
+  if(state.busy) return;
+  state.busy = true; state.cancelled = false;
+  stepSetup.classList.add("hidden");
+  stepWork.classList.remove("hidden");
+  setStatus("Reading the video…");
+  setBar(0);
+  run().catch(function(err){
+    console.error(err);
+    setStatus(err && err.message ? err.message : "Something went wrong.", true);
+  }).then(function(){ state.busy = false; });
+});
+
+function setStatus(t, isErr){ statusEl.textContent = t; statusEl.className = "status" + (isErr?" err":""); }
+function setBar(p){ barfill.style.width = Math.max(0,Math.min(1,p))*100 + "%"; }
+
+/* ---------- frame iteration ---------- */
+
+var hasRVFC = typeof HTMLVideoElement !== "undefined" &&
+              !!HTMLVideoElement.prototype.requestVideoFrameCallback;
+
+function playFrames(video, rate, onFrame){
+  // Plays the video through, calling onFrame(mediaTime) for each decoded frame.
+  return new Promise(function(resolve, reject){
+    var finished = false;
+    function finish(){ if(finished) return; finished = true; cleanup(); resolve(); }
+    function fail(e){ if(finished) return; finished = true; cleanup(); reject(e); }
+    function cleanup(){
+      video.removeEventListener("ended", finish);
+      video.removeEventListener("error", fail);
+      try{ video.pause(); }catch(e){}
+    }
+    video.addEventListener("ended", finish);
+    video.addEventListener("error", fail);
+
+    if(hasRVFC){
+      var step = function(now, meta){
+        if(finished) return;
+        if(state.cancelled){ finish(); return; }
+        try{ onFrame(meta.mediaTime); }catch(e){ fail(e); return; }
+        if(!video.ended) video.requestVideoFrameCallback(step); else finish();
+      };
+      video.requestVideoFrameCallback(step);
+    } else {
+      var last = -1;
+      var tick = function(){
+        if(finished) return;
+        if(state.cancelled){ finish(); return; }
+        if(video.currentTime !== last){
+          last = video.currentTime;
+          try{ onFrame(last); }catch(e){ fail(e); return; }
+        }
+        if(!video.ended) requestAnimationFrame(tick); else finish();
+      };
+      requestAnimationFrame(tick);
+    }
+
+    video.currentTime = 0;
+    video.playbackRate = rate;
+    var p = video.play();
+    if(p && p.catch) p.catch(fail);
+  });
 }
-function certBank(){return BANK.filter(q=>q.cert.includes(cert))}
-function domStats(){
-  const out={};
-  for(const d in DOM){out[d]={c:0,t:0}}
-  certBank().forEach(q=>{const s=stats[q.id];if(s){out[q.d].c+=s.c;out[q.d].t+=s.c+s.w}});
+
+/* ---------- motion estimation ---------- */
+
+function downsample(gray, w, h){
+  var w2 = w>>1, h2 = h>>1, out = new Float32Array(w2*h2);
+  for(var y=0;y<h2;y++){
+    var r0 = (y*2)*w, r1 = r0+w, o = y*w2;
+    for(var x=0;x<w2;x++){
+      var i = x*2;
+      out[o+x] = (gray[r0+i]+gray[r0+i+1]+gray[r1+i]+gray[r1+i+1])*0.25;
+    }
+  }
   return out;
 }
-function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-// explanations reference options by letter in original order; remap to the shuffled display order
-function mapEx(ex,perm){
-  return ex.replace(/\(([^)]*)\)/g,(m,inner)=>'('+inner.replace(/\b([A-D])\b/g,l=>LETTERS[perm.indexOf(l.charCodeAt(0)-65)])+')');
-}
 
-// blueprint-weighted picker: composition of every test follows the cert's exam weights
-function pickByBlueprint(n,pool){
-  pool=pool||certBank();
-  const w=BP[cert].w, doms=Object.keys(w).filter(d=>w[d]>0);
-  const tot=doms.reduce((s,d)=>s+w[d],0);
-  let picked=[];
-  // fewest-seen-first inside each domain so the bank rotates like Pocket Prep
-  const seen=q=>{const s=stats[q.id];return s?s.c+s.w:0};
-  doms.forEach(d=>{
-    const want=Math.round(n*w[d]/tot);
-    const dp=shuffle(pool.filter(q=>q.d===d)).sort((a,b)=>seen(a)-seen(b));
-    picked.push(...dp.slice(0,want));
-  });
-  // top up / trim to exactly n
-  if(picked.length<n){
-    const ids=new Set(picked.map(q=>q.id));
-    const rest=shuffle(pool.filter(q=>!ids.has(q.id))).sort((a,b)=>seen(a)-seen(b));
-    picked.push(...rest.slice(0,n-picked.length));
-  }
-  return shuffle(picked.slice(0,n));
-}
-
-// ---------- views ----------
-function home(){
-  touchStreak();
-  const bank=certBank(), ds=domStats();
-  const answered=Object.keys(stats).filter(id=>bank.some(q=>q.id===id)).length;
-  const correct=bank.reduce((s,q)=>s+(stats[q.id]?stats[q.id].c:0),0);
-  const total=bank.reduce((s,q)=>s+(stats[q.id]?stats[q.id].c+stats[q.id].w:0),0);
-  const acc=total?Math.round(100*correct/total):0;
-  const missed=bank.filter(q=>stats[q.id]&&stats[q.id].last===0).length;
-  // QOTD deterministic by date
-  const dayIdx=Math.floor(Date.now()/864e5)%bank.length;
-
-  APP.innerHTML=`
-  <header>
-    <h1>HR Cert Prep <span>· 2026</span></h1>
-    <div class="certs">${Object.keys(BP).map(c=>`<button class="certbtn ${c===cert?'on':''}" data-c="${c}">${c}</button>`).join('')}</div>
-  </header>
-  <div class="statrow">
-    <div class="stat"><b>${streak.n}🔥</b><span>day streak</span></div>
-    <div class="stat"><b>${answered}/${bank.length}</b><span>questions seen</span></div>
-    <div class="stat"><b>${acc}%</b><span>accuracy</span></div>
-    <div class="stat"><b>${missed}</b><span>to review</span></div>
-  </div>
-  <div class="card qotd mode" id="qotd" style="margin-bottom:12px">
-    <h3>⭐ Question of the Day</h3>
-    <p>${bank[dayIdx].q.slice(0,110)}…</p>
-  </div>
-  <div class="grid">
-    <div class="card mode" data-m="quick"><div class="ic">⚡</div><h3>Quick 10</h3><p>10 blueprint-weighted questions with instant feedback and full explanations.</p></div>
-    <div class="card mode" data-m="levels"><div class="ic">🪜</div><h3>Level Up</h3><p>Climb difficulty levels 1–7. Score 70%+ to unlock the next level — start here.</p></div>
-    <div class="card mode" data-m="weak"><div class="ic">🎯</div><h3>Weakest Subject</h3><p>Auto-targets your lowest-scoring domain to close the gap.</p></div>
-    <div class="card mode" data-m="missed"><div class="ic">🔁</div><h3>Missed Questions</h3><p>Retry every question you got wrong last time (${missed} waiting).</p></div>
-    <div class="card mode" data-m="custom"><div class="ic">🛠️</div><h3>Build Your Own</h3><p>Pick domains, question count, and knowledge vs. situational.</p></div>
-    <div class="card mode" data-m="exam"><div class="ic">⏱️</div><h3>Exam Simulator</h3><p>${BP[cert].examQ} questions · ${Math.floor(BP[cert].examMin/60)}h ${BP[cert].examMin%60}m timer · feedback at the end, like test day.</p></div>
-    <div class="card mode" data-m="marks"><div class="ic">🔖</div><h3>Bookmarked</h3><p>Drill the questions you flagged (${bookmarks.length} saved).</p></div>
-    <div class="card mode" data-m="state"><div class="ic">🗽</div><h3>NY / CA State Law</h3><p>Bonus bank for New York &amp; California practice — daily OT, PFL, pay transparency, PAGA, WARN and more. Not on the national exams, but on the job.</p></div>
-  </div>
-  <h3 style="margin:20px 0 8px;font-size:14px">Mastery by domain — ${cert}</h3>
-  <div class="card">${Object.keys(DOM).filter(d=>BP[cert].w[d]>0||bank.some(q=>q.d===d)).map(d=>{
-    const s=ds[d],p=s.t?Math.round(100*s.c/s.t):0;
-    return `<div class="dom"><div class="lbl"><span>${DOM[d]}</span><span>${s.t?p+'% ('+s.c+'/'+s.t+')':'not started'}</span></div><div class="bar"><i style="width:${p}%"></i></div></div>`;
-  }).join('')}</div>
-  <p class="note">Every quiz is auto-composed to match the real ${cert} exam blueprint weights. Bank: ${bank.length} questions for ${cert} (${BANK.length} total). Tip from test-takers: use ✕ to strike out wrong answers and the highlighter on long questions — the real Prometric interface has both.</p>`;
-
-  document.querySelectorAll('.certbtn').forEach(b=>b.onclick=()=>{cert=b.dataset.c;store.set('cert',cert);home()});
-  document.querySelectorAll('.mode[data-m]').forEach(b=>b.onclick=()=>route(b.dataset.m));
-  $('#qotd').onclick=()=>startQuiz([bank[dayIdx]],{title:'Question of the Day'});
-}
-
-function route(m){
-  const bank=certBank();
-  if(m==='quick')startQuiz(pickByBlueprint(10),{title:'Quick 10'});
-  else if(m==='levels')levelsView();
-  else if(m==='weak'){
-    const ds=domStats();let worst=null,wp=101;
-    Object.keys(ds).forEach(d=>{if(BP[cert].w[d]>0&&ds[d].t>0){const p=100*ds[d].c/ds[d].t;if(p<wp){wp=p;worst=d}}});
-    if(!worst){alert('Answer some questions first so I can find your weak spot!');return}
-    startQuiz(shuffle(bank.filter(q=>q.d===worst)).slice(0,10),{title:'Weakest: '+DOM[worst]});
-  }
-  else if(m==='missed'){
-    const qs=shuffle(bank.filter(q=>stats[q.id]&&stats[q.id].last===0)).slice(0,20);
-    if(!qs.length){alert('Nothing to review — no missed questions. 🎉');return}
-    startQuiz(qs,{title:'Missed Questions'});
-  }
-  else if(m==='custom')customView();
-  else if(m==='exam')startQuiz(pickByBlueprint(Math.min(BP[cert].examQ,bank.length)),{title:cert+' Exam Simulator',exam:true,minutes:BP[cert].examMin});
-  else if(m==='marks'){
-    const qs=bank.filter(q=>bookmarks.includes(q.id));
-    if(!qs.length){alert('No bookmarks yet — flag questions with 🔖 during quizzes.');return}
-    startQuiz(shuffle(qs),{title:'Bookmarked'});
-  }
-  else if(m==='state'){
-    const seen=q=>{const s=stats[q.id];return s?s.c+s.w:0};
-    const qs=shuffle(bank.filter(q=>q.d==='SL')).sort((a,b)=>seen(a)-seen(b)).slice(0,10);
-    if(!qs.length){alert('No state law questions in the bank yet.');return}
-    startQuiz(shuffle(qs),{title:'NY/CA State Law'});
-  }
-}
-
-function levelsView(){
-  const max=levelProg[cert]||1;
-  APP.innerHTML=`<span class="back" onclick="home()">← Back</span>
-  <h1 style="margin-bottom:6px">🪜 Level Up — ${cert}</h1>
-  <p style="color:var(--mut);font-size:13px;margin-bottom:14px">Levels 1–2 build fundamentals, 5–6 mimic real exam distractors, 7 is expert. Score 70%+ on a 10-question set to unlock the next level.</p>
-  <div class="levels">${[1,2,3,4,5,6,7].map(l=>{
-    const locked=l>max, done=l<max;
-    return `<div class="lvl ${done?'done':''} ${locked?'locked':''}" data-l="${l}">${locked?'🔒':l}</div>`;
-  }).join('')}</div>`;
-  document.querySelectorAll('.lvl:not(.locked)').forEach(el=>el.onclick=()=>{
-    const l=+el.dataset.l;
-    let qs=certBank().filter(q=>q.lv===l);
-    if(qs.length<10)qs=qs.concat(certBank().filter(q=>Math.abs(q.lv-l)===1));
-    startQuiz(shuffle(qs).slice(0,10),{title:'Level '+l,level:l});
-  });
-}
-
-function customView(){
-  const doms=Object.keys(DOM).filter(d=>BP[cert].w[d]>0||certBank().some(q=>q.d===d));
-  APP.innerHTML=`<span class="back" onclick="home()">← Back</span>
-  <h1 style="margin-bottom:14px">🛠️ Build Your Own Quiz</h1>
-  <div class="card">
-    <div class="field"><label>Domains</label><div class="checks" id="doms">${doms.map(d=>`<span class="ck on" data-d="${d}">${DOM[d]}</span>`).join('')}</div></div>
-    <div class="field"><label>Question type</label><div class="checks" id="types">
-      <span class="ck on" data-t="k">Knowledge</span><span class="ck on" data-t="s">Situational</span></div></div>
-    <div class="field"><label>How many questions</label><select id="cnt"><option>5</option><option selected>10</option><option>15</option><option>25</option><option>50</option></select></div>
-    <button class="primary" id="go">Start quiz</button>
-  </div>`;
-  document.querySelectorAll('.ck').forEach(c=>c.onclick=()=>c.classList.toggle('on'));
-  $('#go').onclick=()=>{
-    const ds=[...document.querySelectorAll('#doms .ck.on')].map(c=>c.dataset.d);
-    const ts=[...document.querySelectorAll('#types .ck.on')].map(c=>c.dataset.t);
-    const qs=shuffle(certBank().filter(q=>ds.includes(q.d)&&ts.includes(q.t))).slice(0,+$('#cnt').value);
-    if(!qs.length){alert('No questions match those filters.');return}
-    startQuiz(qs,{title:'Custom Quiz'});
-  };
-}
-
-// ---------- quiz engine ----------
-let Q={};
-function startQuiz(qs,opt){
-  if(!qs.length)return;
-  Q={qs,i:0,answers:new Array(qs.length).fill(null),opt,hl:false,struck:{},t0:Date.now(),timer:null,left:(opt.minutes||0)*60,
-     perm:qs.map(()=>shuffle([0,1,2,3]))}; // shuffle answer positions so correct letters vary
-  if(opt.exam){Q.timer=setInterval(()=>{Q.left--;const el=$('#tm');if(el)el.textContent=fmtT(Q.left);if(Q.left<=0){clearInterval(Q.timer);finish()}},1000)}
-  renderQ();
-}
-function fmtT(s){const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return (h?h+':':'')+String(m).padStart(2,'0')+':'+String(x).padStart(2,'0')}
-function renderQ(){
-  const q=Q.qs[Q.i], ans=Q.answers[Q.i], answered=ans!==null && !Q.opt.exam;
-  const struck=Q.struck[Q.i]||[], perm=Q.perm[Q.i];
-  const dispLetter=orig=>LETTERS[perm.indexOf(orig)];
-  APP.innerHTML=`
-  <div class="qtop">
-    <span class="back" id="quit">✕ ${Q.opt.exam?'End exam':'Quit'}</span>
-    <span>${Q.opt.title} — ${Q.i+1} / ${Q.qs.length}</span>
-    ${Q.opt.exam?`<span class="timer" id="tm">${fmtT(Q.left)}</span>`:`<span></span>`}
-  </div>
-  <div class="prog"><i style="width:${(Q.i)/Q.qs.length*100}%"></i></div>
-  <div class="qmeta">
-    <span class="chip">${DOM[q.d]}</span><span class="chip">Level ${q.lv}</span>
-    <span class="chip">${q.t==='s'?'Situational':'Knowledge'}</span>
-    <span class="bookmark ${bookmarks.includes(q.id)?'on':''}" id="bk" title="Bookmark">🔖</span>
-  </div>
-  <div class="tools">
-    <span class="tool ${Q.hl?'on':''}" id="hlt">🖍 Highlight ${Q.hl?'ON — select text':''}</span>
-  </div>
-  <div class="qtext" id="qtext">${q.q}</div>
-  <div id="opts">${perm.map((idx,pos)=>{
-    const o=q.o[idx];
-    let cls='opt';
-    if(struck.includes(idx))cls+=' struck';
-    if(Q.opt.exam){if(ans===idx)cls+=' sel'}
-    else if(ans!==null){if(idx===q.a)cls+=' correct';else if(idx===ans)cls+=' wrong'}
-    return `<div class="${cls}" data-i="${idx}"><span class="letter">${LETTERS[pos]}.</span><span class="otext">${o}</span><span class="strike" data-s="${idx}" title="Strike out">✕</span></div>`;
-  }).join('')}</div>
-  ${answered?`<div class="expl"><b>${ans===q.a?'✔ Correct.':'✘ Not quite — the answer is '+dispLetter(q.a)+'.'}</b> ${mapEx(q.ex,perm)}</div>`:''}
-  <div class="qnav">
-    <button class="ghost" id="prev" ${Q.i===0?'disabled':''}>← Prev</button>
-    ${Q.opt.exam
-      ? (Q.i===Q.qs.length-1?`<button class="primary" id="fin">Submit exam</button>`:`<button class="primary" id="next">Next →</button>`)
-      : (answered?(Q.i===Q.qs.length-1?`<button class="primary" id="fin">See results</button>`:`<button class="primary" id="next">Next →</button>`):`<span style="color:var(--mut);font-size:12px">choose an answer</span>`)}
-  </div>`;
-
-  $('#quit').onclick=()=>{if(confirm('Leave this quiz? Progress on unanswered questions is lost.')){if(Q.timer)clearInterval(Q.timer);home()}};
-  $('#bk').onclick=e=>{
-    const i=bookmarks.indexOf(q.id);
-    i>=0?bookmarks.splice(i,1):bookmarks.push(q.id);
-    store.set('bookmarks',bookmarks);e.target.classList.toggle('on');
-  };
-  $('#hlt').onclick=()=>{Q.hl=!Q.hl;renderQ()};
-  $('#qtext').onmouseup=()=>{
-    if(!Q.hl)return;
-    const sel=window.getSelection();
-    if(sel.rangeCount&&!sel.isCollapsed){
-      try{const r=sel.getRangeAt(0);const m=document.createElement('mark');r.surroundContents(m);sel.removeAllRanges()}catch(e){}
+function sad(a, b, w, h, x0, y0, x1, y1, dx, dy, step){
+  // Sum of absolute differences between region of `a` and `b` shifted by (dx,dy).
+  var total = 0, n = 0;
+  var ys = Math.max(y0, -dy), ye = Math.min(y1, h-dy);
+  var xs = Math.max(x0, -dx), xe = Math.min(x1, w-dx);
+  if(ye-ys < 4 || xe-xs < 4) return Infinity;
+  for(var y=ys;y<ye;y+=step){
+    var ra = y*w, rb = (y+dy)*w + dx;
+    for(var x=xs;x<xe;x+=step){
+      var d = a[ra+x]-b[rb+x];
+      total += d<0 ? -d : d;
+      n++;
     }
-  };
-  document.querySelectorAll('.strike').forEach(s=>s.onclick=e=>{
-    e.stopPropagation();
-    const idx=+s.dataset.s, arr=Q.struck[Q.i]=Q.struck[Q.i]||[];
-    const p=arr.indexOf(idx);p>=0?arr.splice(p,1):arr.push(idx);
-    renderQ();
-  });
-  document.querySelectorAll('.opt').forEach(o=>o.onclick=()=>{
-    const idx=+o.dataset.i;
-    if(Q.opt.exam){Q.answers[Q.i]=idx;renderQ();return}
-    if(Q.answers[Q.i]!==null)return;
-    Q.answers[Q.i]=idx;rec(q.id,idx===q.a);renderQ();
-  });
-  const nx=$('#next');if(nx)nx.onclick=()=>{Q.i++;renderQ()};
-  const pv=$('#prev');if(pv)pv.onclick=()=>{Q.i--;renderQ()};
-  const fn=$('#fin');if(fn)fn.onclick=finish;
-}
-function finish(){
-  if(Q.timer)clearInterval(Q.timer);
-  if(Q.opt.exam){Q.qs.forEach((q,i)=>{if(Q.answers[i]!==null)rec(q.id,Q.answers[i]===q.a)})}
-  const n=Q.qs.length, right=Q.qs.filter((q,i)=>Q.answers[i]===q.a).length;
-  const pct=Math.round(100*right/n);
-  // level unlock
-  let unlocked='';
-  if(Q.opt.level&&pct>=70){
-    const cur=levelProg[cert]||1;
-    if(Q.opt.level>=cur&&cur<7){levelProg[cert]=Q.opt.level+1;store.set('levelProg',levelProg);unlocked=`<p style="text-align:center;color:var(--ok);font-size:14px;margin-bottom:12px">🎉 Level ${Q.opt.level+1} unlocked!</p>`}
   }
-  const byDom={};
-  Q.qs.forEach((q,i)=>{byDom[q.d]=byDom[q.d]||{c:0,t:0};byDom[q.d].t++;if(Q.answers[i]===q.a)byDom[q.d].c++});
-  const mins=Math.round((Date.now()-Q.t0)/60000);
-  APP.innerHTML=`
-  <span class="back" onclick="home()">← Home</span>
-  <div class="score-big" style="color:${pct>=70?'var(--ok)':pct>=50?'var(--warn)':'var(--bad)'}">${pct}%</div>
-  <div class="score-sub">${right} of ${n} correct · ${Q.opt.title} · ${mins} min${pct>=70?' · passing pace ✔':''}</div>
-  ${unlocked}
-  <div class="card" style="margin-bottom:14px">${Object.keys(byDom).map(d=>{
-    const s=byDom[d],p=Math.round(100*s.c/s.t);
-    return `<div class="dom"><div class="lbl"><span>${DOM[d]}</span><span>${s.c}/${s.t}</span></div><div class="bar"><i style="width:${p}%"></i></div></div>`;
-  }).join('')}</div>
-  <h3 style="font-size:14px;margin-bottom:6px">Review</h3>
-  <div class="card">${Q.qs.map((q,i)=>{
-    const a=Q.answers[i],ok=a===q.a,pm=Q.perm[i];
-    return `<div class="rv"><div class="q">${ok?'<span class="ok">✔</span>':'<span class="bad">✘</span>'} ${q.q}</div>
-    <div class="a">Your answer: ${a!==null?LETTERS[pm.indexOf(a)]+'. '+q.o[a]:'—'} ${ok?'':'<br>Correct: '+LETTERS[pm.indexOf(q.a)]+'. '+q.o[q.a]}<br><i>${mapEx(q.ex,pm)}</i></div></div>`;
-  }).join('')}</div>
-  <div style="text-align:center;margin-top:18px"><button class="primary" onclick="home()">Back to dashboard</button></div>`;
-  window.scrollTo(0,0);
+  return n ? total/n : Infinity;
 }
-home();
+
+function search(a, b, w, h, rect, range, cx, cy, step){
+  // Repetitive scenes (fences, tiles, water) can produce several near-equal
+  // minima, so near-ties resolve toward the smaller movement.
+  var best = {dx:cx, dy:cy, cost:Infinity}, bestMag = Infinity;
+  for(var dy=cy-range; dy<=cy+range; dy++){
+    for(var dx=cx-range; dx<=cx+range; dx++){
+      var c = sad(a,b,w,h,rect[0],rect[1],rect[2],rect[3],dx,dy,step);
+      if(c === Infinity) continue;
+      var mag = dx*dx + dy*dy;
+      if(c < best.cost*0.98 || (c < best.cost*1.02 && mag < bestMag)){
+        if(c < best.cost){ best.cost = c; }
+        best.dx = dx; best.dy = dy; bestMag = mag;
+      }
+    }
+  }
+  return best;
+}
+
+function estimate(prev, cur, w, h, predict, wantRot){
+  // Coarse pass on a half-size pyramid level, then refine at full analysis size.
+  var pw = w>>1, ph = h>>1;
+  var pPrev = downsample(prev,w,h), pCur = downsample(cur,w,h);
+  var inset = [Math.round(pw*0.10), Math.round(ph*0.10), Math.round(pw*0.90), Math.round(ph*0.90)];
+  var coarse = search(pPrev, pCur, pw, ph, inset,
+                      7, Math.round(predict.dx/2), Math.round(predict.dy/2), 2);
+
+  var full = [Math.round(w*0.08), Math.round(h*0.08), Math.round(w*0.92), Math.round(h*0.92)];
+  var fine = search(prev, cur, w, h, full, 2, coarse.dx*2, coarse.dy*2, 2);
+
+  var dth = 0;
+  if(wantRot){
+    var mid = Math.round(w/2);
+    var left  = search(prev, cur, w, h, [full[0], full[1], mid-4, full[3]], 2, fine.dx, fine.dy, 2);
+    var right = search(prev, cur, w, h, [mid+4, full[1], full[2], full[3]], 2, fine.dx, fine.dy, 2);
+    if(isFinite(left.cost) && isFinite(right.cost)){
+      var span = ((full[2]+mid)/2) - ((full[0]+mid)/2);
+      if(span > 8){
+        dth = (right.dy - left.dy) / span;
+        var cap = 0.035;                      // ~2° per frame
+        if(dth >  cap) dth =  cap;
+        if(dth < -cap) dth = -cap;
+      }
+    }
+  }
+  return {dx:fine.dx, dy:fine.dy, dth:dth};
+}
+
+/* ---------- pass 1: analyse ---------- */
+
+function analyse(opts){
+  var aw = ANALYSIS_W;
+  var ah = Math.max(2, Math.round(aw * src.videoHeight / src.videoWidth));
+  ah -= ah % 2;
+  var c = document.createElement("canvas");
+  c.width = aw; c.height = ah;
+  var ctx = c.getContext("2d", {willReadFrequently:true});
+
+  var prev = null, predict = {dx:0,dy:0};
+  var times = [], X = [], Y = [], T = [];
+  var accX = 0, accY = 0, accT = 0;
+  var dur = isFinite(src.duration) && src.duration > 0 ? src.duration : 0;
+
+  src.muted = true;
+
+  return playFrames(src, opts.analysisRate, function(t){
+    ctx.drawImage(src, 0, 0, aw, ah);
+    var d = ctx.getImageData(0,0,aw,ah).data;
+    var gray = new Float32Array(aw*ah);
+    for(var i=0, p=0; i<gray.length; i++, p+=4){
+      gray[i] = 0.299*d[p] + 0.587*d[p+1] + 0.114*d[p+2];
+    }
+    if(prev){
+      var m = estimate(prev, gray, aw, ah, predict, opts.rot);
+      predict = {dx:m.dx, dy:m.dy};
+      accX += m.dx / aw;          // normalised to frame width, so output size is irrelevant
+      accY += m.dy / aw;
+      accT += m.dth;
+    }
+    prev = gray;
+    times.push(t); X.push(accX); Y.push(accY); T.push(accT);
+    if(dur) setBar(0.45 * (t/dur));
+    if(times.length % 6 === 0) drawTrace(times, X, Y, null);
+  }).then(function(){
+    return {times:times, X:X, Y:Y, T:T};
+  });
+}
+
+/* ---------- smoothing ---------- */
+
+function smoothPath(times, vals, sigma){
+  var n = vals.length, out = new Float64Array(n);
+  var reach = sigma * 3;
+  for(var i=0;i<n;i++){
+    var ti = times[i], sum = 0, wsum = 0;
+    for(var j=i; j<n; j++){
+      var dt = times[j]-ti; if(dt > reach) break;
+      var w = Math.exp(-(dt*dt)/(2*sigma*sigma));
+      sum += w*vals[j]; wsum += w;
+    }
+    for(var k=i-1; k>=0; k--){
+      var dt2 = ti-times[k]; if(dt2 > reach) break;
+      var w2 = Math.exp(-(dt2*dt2)/(2*sigma*sigma));
+      sum += w2*vals[k]; wsum += w2;
+    }
+    out[i] = wsum ? sum/wsum : vals[i];
+  }
+  return out;
+}
+
+function buildCorrections(a, opts, outW, outH){
+  var sx = smoothPath(a.times, a.X, opts.sigma);
+  var sy = smoothPath(a.times, a.Y, opts.sigma);
+  var st = smoothPath(a.times, a.T, opts.sigma);
+  var n = a.times.length;
+  var cx = new Float64Array(n), cy = new Float64Array(n), ct = new Float64Array(n);
+  var i;
+
+  for(i=0;i<n;i++){
+    cx[i] = (sx[i]-a.X[i]) * outW;   // normalised units were per frame width
+    cy[i] = (sy[i]-a.Y[i]) * outW;
+    ct[i] = opts.rot ? (st[i]-a.T[i]) : 0;
+  }
+
+  // Zoom needed so a corrected frame still covers the output rectangle.
+  function required(i){
+    var t = Math.abs(ct[i]);
+    var rw = Math.cos(t) + Math.sin(t)*(outH/outW);
+    var rh = Math.cos(t) + Math.sin(t)*(outW/outH);
+    var needW = rw + 2*Math.abs(cx[i])/outW;
+    var needH = rh + 2*Math.abs(cy[i])/outH;
+    return Math.max(needW, needH, 1);
+  }
+
+  var reqs = [];
+  for(i=0;i<n;i++) reqs.push(required(i));
+  var sorted = reqs.slice().sort(function(p,q){ return p-q; });
+  var p96 = sorted[Math.min(sorted.length-1, Math.floor(sorted.length*0.96))] || 1;
+  var scale = Math.min(p96, opts.maxScale);
+  if(!(scale > 1)) scale = 1.001;
+
+  // Anything still overshooting gets eased back rather than clipped hard.
+  for(i=0;i<n;i++){
+    var r = reqs[i];
+    if(r > scale){
+      var f = (scale-1)/(r-1);
+      if(!isFinite(f) || f < 0) f = 0;
+      cx[i]*=f; cy[i]*=f; ct[i]*=f;
+    }
+  }
+  return {cx:cx, cy:cy, ct:ct, scale:scale, sx:sx, sy:sy};
+}
+
+/* ---------- pass 2: render and encode ---------- */
+
+function pickMime(){
+  var want = ["video/mp4;codecs=avc1.42E01E","video/mp4","video/webm;codecs=vp9","video/webm;codecs=vp8","video/webm"];
+  if(typeof MediaRecorder === "undefined") return null;
+  for(var i=0;i<want.length;i++){
+    if(MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(want[i])) return want[i];
+  }
+  return "";
+}
+
+function render(a, corr, opts, outW, outH){
+  var canvas = document.createElement("canvas");
+  canvas.width = outW; canvas.height = outH;
+  var ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#000";
+
+  var mime = pickMime();
+  if(mime === null) throw new Error("This browser cannot export video. Try Safari on iPhone or Chrome on Android.");
+
+  var stream = canvas.captureStream(30);
+  var gotAudio = false;
+  if(opts.audio){
+    try{
+      var grab = src.captureStream || src.mozCaptureStream || src.webkitCaptureStream;
+      if(grab){
+        var ms = grab.call(src);
+        var tracks = ms.getAudioTracks();
+        if(tracks.length){ stream.addTrack(tracks[0]); gotAudio = true; }
+      }
+    }catch(e){ gotAudio = false; }
+  }
+  src.muted = !gotAudio;
+  src.volume = gotAudio ? 1 : 0;
+
+  var bitrate = Math.min(14000000, Math.max(2500000, Math.round(outW*outH*0.16)));
+  var rec;
+  try{
+    rec = new MediaRecorder(stream, mime ? {mimeType:mime, videoBitsPerSecond:bitrate} : {videoBitsPerSecond:bitrate});
+  }catch(e){
+    rec = new MediaRecorder(stream);
+  }
+  var chunks = [];
+  rec.ondataavailable = function(e){ if(e.data && e.data.size) chunks.push(e.data); };
+
+  var dur = isFinite(src.duration) && src.duration>0 ? src.duration : 0;
+  var times = a.times, n = times.length, cursor = 0;
+
+  function lookup(t){
+    while(cursor < n-1 && times[cursor+1] < t) cursor++;
+    while(cursor > 0 && times[cursor] > t) cursor--;
+    var i = cursor, j = Math.min(n-1, cursor+1);
+    var span = times[j]-times[i];
+    var f = span > 0 ? Math.max(0, Math.min(1, (t-times[i])/span)) : 0;
+    return {
+      x: corr.cx[i] + (corr.cx[j]-corr.cx[i])*f,
+      y: corr.cy[i] + (corr.cy[j]-corr.cy[i])*f,
+      t: corr.ct[i] + (corr.ct[j]-corr.ct[i])*f
+    };
+  }
+
+  var stopped = new Promise(function(res){ rec.onstop = res; });
+  rec.start(250);
+
+  return playFrames(src, 1, function(t){
+    var c = lookup(t);
+    ctx.fillRect(0,0,outW,outH);
+    ctx.save();
+    ctx.translate(outW/2 + c.x, outH/2 + c.y);
+    ctx.rotate(c.t);
+    ctx.scale(corr.scale, corr.scale);
+    ctx.drawImage(src, -outW/2, -outH/2, outW, outH);
+    ctx.restore();
+    if(dur) setBar(0.5 + 0.5*(t/dur));
+  }).then(function(){
+    return new Promise(function(r){ setTimeout(r, 350); });
+  }).then(function(){
+    if(rec.state !== "inactive") rec.stop();
+    return stopped;
+  }).then(function(){
+    stream.getTracks().forEach(function(tr){ try{ tr.stop(); }catch(e){} });
+    return {blob: new Blob(chunks, {type: chunks.length && chunks[0].type ? chunks[0].type : "video/mp4"}), audio:gotAudio};
+  });
+}
+
+/* ---------- trajectory drawing ---------- */
+
+function drawTrace(times, X, Y, smoothed){
+  var w = trace.width, h = trace.height;
+  tctx.clearRect(0,0,w,h);
+  var n = X.length;
+  if(n < 2) return;
+  var lo = Infinity, hi = -Infinity, i;
+  for(i=0;i<n;i++){
+    var v = Math.hypot(X[i], Y[i]) * (X[i]+Y[i] < 0 ? -1 : 1);
+    if(v<lo) lo=v; if(v>hi) hi=v;
+  }
+  if(!isFinite(lo) || hi-lo < 1e-6){ lo=-0.01; hi=0.01; }
+  var pad = (hi-lo)*0.15; lo-=pad; hi+=pad;
+  var t0 = times[0], t1 = times[n-1] || 1;
+  function px(t){ return (t1>t0) ? ((t-t0)/(t1-t0))*(w-8)+4 : 4; }
+  function py(v){ return h-6 - ((v-lo)/(hi-lo))*(h-12); }
+
+  function line(vals, color, width){
+    tctx.beginPath();
+    for(var k=0;k<n;k++){
+      var val = vals ? vals[k] : Math.hypot(X[k],Y[k])*((X[k]+Y[k]<0)?-1:1);
+      var x = px(times[k]), y = py(val);
+      if(k===0) tctx.moveTo(x,y); else tctx.lineTo(x,y);
+    }
+    tctx.strokeStyle = color; tctx.lineWidth = width;
+    tctx.lineJoin = "round"; tctx.lineCap = "round";
+    tctx.stroke();
+  }
+
+  var raw = [];
+  for(i=0;i<n;i++) raw.push(Math.hypot(X[i],Y[i])*((X[i]+Y[i]<0)?-1:1));
+  line(raw, "#96A0AC", 2);
+  if(smoothed) line(smoothed, "#3A31D8", 3.5);
+}
+
+/* ---------- orchestration ---------- */
+
+function run(){
+  var opts = {
+    sigma: parseFloat($("smooth").value),
+    maxScale: 1 + parseFloat($("crop").value)/100,
+    rot: $("rot").checked,
+    audio: $("audio").checked,
+    analysisRate: 2
+  };
+
+  var target = parseInt($("quality").value, 10);
+  var vw = src.videoWidth, vh = src.videoHeight;
+  if(!vw || !vh) return Promise.reject(new Error("Could not read the video dimensions."));
+  var longest = Math.max(vw, vh);
+  var outW = vw, outH = vh;
+  if(target && longest > target){
+    var f = target/longest;
+    outW = Math.round(vw*f); outH = Math.round(vh*f);
+  }
+  outW -= outW % 2; outH -= outH % 2;
+
+  var t0 = Date.now(), analysis, corr;
+
+  setStatus("Tracking the camera…");
+  return analyse(opts).then(function(a){
+    if(state.cancelled) throw new Error("Cancelled.");
+    if(a.times.length < 6) throw new Error("Too few frames were read to work out any motion.");
+    analysis = a;
+    corr = buildCorrections(a, opts, outW, outH);
+    drawTrace(a.times, a.X, a.Y, smoothCombined(a, corr));
+    setStatus("Exporting — this runs in real time, so give it about " +
+              Math.ceil(src.duration||0) + "s.");
+    setBar(0.5);
+    return render(a, corr, opts, outW, outH);
+  }).then(function(out){
+    if(state.cancelled) throw new Error("Cancelled.");
+    if(!out.blob.size) throw new Error("The export came back empty. Try 720p output.");
+    if(state.outURL) URL.revokeObjectURL(state.outURL);
+    state.outURL = URL.createObjectURL(out.blob);
+    state.showingOriginal = false;
+    $("compare").textContent = "Show original";
+    result.src = state.outURL;
+    saveLink.href = state.outURL;
+    saveLink.download = "stabilized-" + (state.file.name.replace(/\.[^.]+$/,"")) +
+                        (out.blob.type.indexOf("webm")>-1 ? ".webm" : ".mp4");
+    statsEl.textContent = outW+"×"+outH+" · zoomed "+Math.round((corr.scale-1)*100)+"% · "+
+                          (out.blob.size/1048576).toFixed(1)+" MB · "+
+                          (out.audio ? "with sound" : "silent") + " · took "+
+                          Math.round((Date.now()-t0)/1000)+"s";
+    setBar(1);
+    stepWork.classList.add("hidden");
+    stepDone.classList.remove("hidden");
+    src.muted = true;
+  }).catch(function(err){
+    src.muted = true;
+    if(state.cancelled){
+      stepWork.classList.add("hidden");
+      stepSetup.classList.remove("hidden");
+      return;
+    }
+    throw err;
+  });
+}
+
+function smoothCombined(a, corr){
+  var out = [];
+  for(var i=0;i<a.times.length;i++){
+    var x = corr.sx[i], y = corr.sy[i];
+    out.push(Math.hypot(x,y)*((x+y<0)?-1:1));
+  }
+  return out;
+}
+
+})();
 </script>
 </body>
 </html>
