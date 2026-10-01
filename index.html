@@ -148,10 +148,10 @@ input{font:inherit;color:inherit;letter-spacing:inherit}
 .addset:active{background:var(--fill)}
 
 /* rest timer */
-.rest{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(140%);z-index:50;
+.rest{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(calc(100% + 60px + env(safe-area-inset-bottom,0px)));z-index:50;visibility:hidden;opacity:0;
   display:flex;align-items:center;gap:14px;padding:8px 8px 8px 18px;border-radius:30px;background:var(--card2);
-  box-shadow:0 10px 30px rgba(0,0,0,.18);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
-.rest.on{transform:translateX(-50%)}
+  box-shadow:0 10px 30px rgba(0,0,0,.18);transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .2s,visibility 0s .35s}
+.rest.on{transform:translateX(-50%);visibility:visible;opacity:1;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .2s,visibility 0s}
 .rest b{font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;min-width:62px}
 .rest small{font-size:12px;color:var(--label2);display:block;margin-top:-2px}
 .rest button{height:40px;padding:0 14px;border-radius:20px;background:var(--fill);font-size:15px;font-weight:600}
